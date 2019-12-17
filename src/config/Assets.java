@@ -1,7 +1,5 @@
 package config;
 
-import de.ur.mi.oop.graphics.Image;
-
 public interface Assets {
 
     public static final String INTRO_CARD = "data/intro/IntroCard.png";
