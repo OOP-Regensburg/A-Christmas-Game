@@ -8,12 +8,14 @@ public class SpriteSet {
     public final Image[] sprites;
     public final int animationSpeed;
     private int currentFrame;
+    private int frameCounter;
 
     public SpriteSet(String name, Image[] sprites, int animationSpeed) {
         this.name = name;
         this.sprites = sprites;
         this.animationSpeed = animationSpeed;
         this.currentFrame = 0;
+        this.frameCounter = 0;
     }
 
     public void setPositions(int xPos, int yPos) {
@@ -22,11 +24,19 @@ public class SpriteSet {
         }
     }
 
-    public Image next() {
-        if(currentFrame == sprites.length - 1) {
-            currentFrame = 0;
-        } else {
+    public Image getFirstSprite() {
+        return sprites[0];
+    }
+
+    public Image getSprite() {
+        if (frameCounter > animationSpeed / sprites.length) {
             currentFrame++;
+            if (currentFrame == sprites.length) {
+                currentFrame = 0;
+            }
+            frameCounter = 0;
+        } else {
+            frameCounter++;
         }
         return sprites[currentFrame];
     }

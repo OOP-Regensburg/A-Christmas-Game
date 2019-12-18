@@ -4,17 +4,16 @@ import de.ur.mi.oop.graphics.Image;
 
 public class SpriteActor {
 
-    private SpriteSet[] spriteSet;
+    private SpriteSet[] spriteSets;
     private SpriteSet currentSpriteSet;
     private Image currentSprite;
     private int xPos;
     private int yPos;
-    private int frameCounter;
 
     public SpriteActor(int xPos, int yPos, SpriteSet[] sprites) {
         this.xPos = xPos;
         this.yPos = yPos;
-        this.spriteSet = sprites;
+        this.spriteSets = sprites;
         selectSpriteSet(sprites[0].name);
     }
 
@@ -27,11 +26,10 @@ public class SpriteActor {
     }
 
     public void selectSpriteSet(String name) {
-        for (int i = 0; i < spriteSet.length; i++) {
-            if (spriteSet[i].name == name) {
-                currentSpriteSet = spriteSet[i];
-                currentSprite = currentSpriteSet.next();
-                frameCounter = 0;
+        for (int i = 0; i < spriteSets.length; i++) {
+            if (spriteSets[i].name == name) {
+                currentSpriteSet = spriteSets[i];
+                currentSprite = currentSpriteSet.getFirstSprite();
                 return;
             }
         }
@@ -54,11 +52,7 @@ public class SpriteActor {
     }
 
     public void update() {
-        frameCounter++;
-        if (frameCounter > currentSpriteSet.animationSpeed / spriteSet.length) {
-            currentSprite = currentSpriteSet.next();
-            frameCounter = 0;
-        }
+        currentSprite = currentSpriteSet.getSprite();
     }
 
     public void draw() {

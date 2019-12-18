@@ -2,6 +2,7 @@ package game.player;
 
 import config.Assets;
 import config.GameConfig;
+import de.ur.mi.oop.graphics.Circle;
 import game.snowballs.Snowball;
 import game.snowballs.SnowballTarget;
 import sprites.SpriteActor;
@@ -50,11 +51,8 @@ public class Player extends SpriteActor implements GameConfig, Assets, SnowballT
 
     @Override
     public boolean wasHitBySnowball(Snowball snowball) {
-        float centerX = getCurrentSprite().getXPos() + getCurrentSprite().getWidth()/2;
-        if(snowball.getXPos() - centerX <= PLAYER_HIT_BOX_RADIUS ) {
-            return getCurrentSprite().hitTest(snowball.getXPos(), snowball.getYPos());
-        }
-        return false;
+        Circle center = new Circle(getXPos(), getYPos(), PLAYER_HIT_BOX_RADIUS);
+        return center.hitTest(snowball.getXPos(), snowball.getYPos());
     }
 }
 

@@ -16,16 +16,14 @@ import sprites.SpriteSet;
 
 public class GameScene extends Scene implements GameConfig, Assets, SnowBallListener {
 
-    private Image backgroundImage;
     private BackgroundObjects backgroundObjects;
     private Player player;
     private SnowballDispenser snowballDispenser;
     private Scoreboard scoreboard;
     private int score;
 
-    public GameScene(String name, SceneListener listener) {
-        super(name,listener);
-
+    public GameScene(String tag, SceneListener listener) {
+        super(tag, BACKGROUND_IMAGE_PATH, listener);
     }
 
     public void initialize() {
@@ -36,15 +34,7 @@ public class GameScene extends Scene implements GameConfig, Assets, SnowBallList
     }
 
     private void initBackground() {
-        backgroundImage = new Image(0,0, BACKGROUND_IMAGE_PATH);
         backgroundObjects = new BackgroundObjects(0,0);
-    }
-
-    private void initSnowballs() {
-        snowballDispenser = new SnowballDispenser(MAX_SNOWBALLS, SNOWBALL_SPAWN_DELAY);
-        snowballDispenser.setSnowballListener(this);
-        snowballDispenser.setSpeed(SnowballSpeed.SLOW);
-        snowballDispenser.setTarget(player);
     }
 
     private void initPlayer() {
@@ -52,6 +42,13 @@ public class GameScene extends Scene implements GameConfig, Assets, SnowBallList
         sprites[0] = SpriteSet.createSet("running", PLAYER_SPRITES_RUNNING, PLAYER_ANIMATION_SPEED);
         sprites[1] = SpriteSet.createSet("jumping", PLAYER_SPRITES_JUMPING, PLAYER_ANIMATION_SPEED);
         player = new Player(GameConfig.PLAYER_START_POSITION_X,GameConfig.PLAYER_START_POSITION_Y, sprites);
+    }
+
+    private void initSnowballs() {
+        snowballDispenser = new SnowballDispenser(MAX_SNOWBALLS, SNOWBALL_SPAWN_DELAY);
+        snowballDispenser.setSnowballListener(this);
+        snowballDispenser.setSpeed(SnowballSpeed.SLOW);
+        snowballDispenser.setTarget(player);
     }
 
     private void initScoreboard() {
@@ -67,7 +64,7 @@ public class GameScene extends Scene implements GameConfig, Assets, SnowBallList
     }
 
     public void draw() {
-        backgroundImage.draw();
+        super.draw();
         backgroundObjects.draw();
         player.draw();
         snowballDispenser.draw();

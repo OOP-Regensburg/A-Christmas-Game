@@ -11,6 +11,7 @@ import scenes.SceneListener;
 
 public class SnowballFight extends GraphicsApp implements GameConfig, Assets, SceneListener {
 
+    private Scene[] scenes;
     private Scene currentScene;
     private AudioClip backgroundMusic;
 
@@ -18,12 +19,24 @@ public class SnowballFight extends GraphicsApp implements GameConfig, Assets, Sc
     public void initialize() {
         setFrameRate(TARGET_FPS);
         setCanvasSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-        setScene(new IntroScene("Intro", this));
+        preloadScenes();
+        setScene(INTRO_SCENE_TAG);
         initBackgroundMusic();
     }
 
-    private void setScene(Scene scene) {
-        currentScene = scene;
+    private void preloadScenes() {
+        scenes = new Scene[2];
+        scenes[0] = new IntroScene(INTRO_SCENE_TAG, this);
+        scenes[1] = new GameScene(GAME_SCENE_TAG, this);
+    }
+
+    private void setScene(String tag) {
+        for(int i = 0; i < scenes.length; i++) {
+            if(scenes[i].getTag().equals(tag)) {
+                currentScene = scenes[i];
+                break;
+            }
+        }
         currentScene.initialize();
     }
 
@@ -46,6 +59,6 @@ public class SnowballFight extends GraphicsApp implements GameConfig, Assets, Sc
 
     @Override
     public void onSceneFinished(Scene scene) {
-        setScene(new GameScene("Game", this));
+        setScene(GAME_SCENE_TAG);
     }
 }
